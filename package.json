@@ -15,5 +15,8 @@
     "gulp-concat": "^2.6.1",
     "gulp-jsmin": "^0.1.5",
     "gulp-less": "^5.0.0"
+  },
+  "dependencies": {
+    "appwrite": "^5.0.0"
   }
 }

@@ -111,6 +111,16 @@ return [ // Ordered by ABC.
         'beta' => false,
         'mock' => false,
     ],
+    'keycloak' => [
+        'name' => 'KeyCloak',
+        'developers' => 'https://www.keycloak.org/documentation',
+        'icon' => 'icon-keycloak',
+        'enabled' => true,
+        'sandbox' => false,
+        'form' => false,
+        'beta' => false,
+        'mock' => false,
+    ],
     'linkedin' => [
         'name' => 'LinkedIn',
         'developers' => 'https://developer.linkedin.com/',
