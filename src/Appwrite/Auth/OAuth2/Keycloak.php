@@ -38,12 +38,11 @@ class Keycloak extends OAuth2
      */
     public function getLoginURL():string
     {
-        return $this->endpoint. 'auth'. \http_build_query([
+        // KeyCloak expects a non-encoded url
+        return $this->endpoint. 'auth?redirect_uri='. $this->callback. '&'. \http_build_query([
             'client_id' => $this->appID,
-            'response_mode' => 'fragment',
             'response_type' => 'code',
             'login' => 'true',
-            'redirect_uri' => $this->callback,
             'state' => \json_encode($this->state)
         ]);
     }
@@ -58,11 +57,11 @@ class Keycloak extends OAuth2
         $accessToken = $this->request(
             'POST',
             $this->endpoint. 'token',
-            [],
+            ['Content-Type: application/x-www-form-urlencoded'],
             \http_build_query([
                 'grant_type' => 'authorization_code',
                 'client_id' => $this->appID,
-                'redirect_uri' => $this->callback,
+                'redirect_uri' => 'http://localhost/v1/account/sessions/oauth2/callback/keycloak/618ccd94911c9',
                 'client_secret' => $this->appSecret,
                 'code' => $code
             ])
@@ -133,7 +132,7 @@ class Keycloak extends OAuth2
     protected function getUser(string $accessToken)
     {
         if (empty($this->user)) {
-            $this->user = \json_decode($this->request('POST', $this->endpoint. 'userinfo', [],
+            $this->user = \json_decode($this->request('POST', $this->endpoint. 'userinfo', ['Content-Type: application/x-www-form-urlencoded'],
             \http_build_query([
                 'access_token' => $accessToken
             ])));
